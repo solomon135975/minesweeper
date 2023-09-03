@@ -10,3 +10,70 @@ didnt have JAVA_HOME thing setup
 set that up :thumbsup:
 
 possibly gonna use javafx for the gui aspect
+
+figuring out plan:
+- start text based, get game logic down, then can maybe do gui
+
+mine placement:
+- avoid clustering
+- even distr is ideal
+start with fisher-yates shuffler, get that down, then try randomised depth first search. 
+
+calculating numbers:
+- increment all non-mine cells in 3x3 grid surrounding mine by 1
+- watch for edge cases
+
+clicking on a tile:
+- mine ends game, possibly reveal all other mines, ask if want to play again or quit 
+- safe spot reveals number
+- safe spot with no adjacent mines recursively reveals all adjacement spots until hits non 0s (inclusive)
+
+user input:
+- take coordinate like a3 
+- f to flag or unflag e.g. a3f
+- q to quit
+- r to restart 
+
+difficulty levels:
+- start with easy, work towards doing a medium and hard afterwards
+
+flags
+- use ! to represent suspected mine
+- toggle-able
+- counter to display how many flags left
+- show incorrect flags at the end
+
+end game :
+- timer
+- game over if mine clicked - lose
+- game won if all non-mines revealed
+
+grid output:
+- unrevealed cell: #
+- revealed cell: num 1-8
+- revealed non adj cell: .
+- mine: X
+- flagged cell: !
+- wrong flagged cell: ?
+- labels: columns - numbers. rows - alphabet
+- need good spacing to keep good alignment
+- list of commands: quit, restart, abort
+- messages above grid of what player just did
+- list of what symbols mean 
+- choose difficulty option 
+
+Extras:
+- randomised depth first search
+- extra difficulty modes
+- reveal all mines when one mine is clicked
+- bonus points/achievements
+- scoring in general
+- abort game function to reveal board
+- GUI
+- saving progress
+- local leaderboard
+- pausing
+
+testing + feedback
+- manual
+- show friends and fam, get feedback 
