@@ -1,0 +1,11 @@
+hello
+
+what have i done so far? remembering
+researched diff build tools
+chose maven
+researched diff archetypes 
+chose quickstart
+didnt have JAVA_HOME thing setup
+set that up :thumbsup:
+
+possibly gonna use javafx for the gui aspect
