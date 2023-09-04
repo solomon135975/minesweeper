@@ -1,1 +1,27 @@
 04 Sept 2023
+
+put the features into priority lists:
+
+core:
+- game grid
+- mine placement 
+- adj mine counting on cells 
+- user input handling 
+- cell reveal logic 
+- game end conditions
+- flagging mechanism
+
+additional:
+- timer 
+- difficulty levels 
+- reveal all mines and incorrect flags
+- scoring sytem 
+- abort game to reveal board
+
+future:
+- saving
+- local leaderboard 
+- randomised depth first search
+- bonus points/achievements
+- pausing and resuming
+- GUI
