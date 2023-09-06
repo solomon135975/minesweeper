@@ -1,0 +1,94 @@
+game grid initialisation 
+- how do i represent the grid
+- how will i initalise each cell's state
+
+grid {
+    Cell[9][9] grid;
+    numMines = 10;
+    numFlags = numMines;
+
+    for y = 0; y<9; y++ {
+        for x = 0; x<9; x++ {
+            grid [y][x] = new Cell();
+            print " " + grid[y][x].getDisplay() + " ";
+        }
+        print newLine
+    }
+}
+
+Cell {
+    boolean isMine = false;
+    boolean isRevealed = false;
+    int numMines = 0;
+    String value = "."
+    boolean isFlagged = false;
+    String display = "#";
+
+    methods:
+    setMine()
+    setRevealed()
+    setFlagged()
+    getDisplay()
+    getValue()
+    getNumMines()
+
+}
+
+
+mine placement:
+- discuss the steps for the randomised depth first search 
+- how will i ensure mine placement is random (by using rdfs)
+
+randomised depth first search:
+1. starting point: player chooses first cell
+2. ensure this cell is not a mine (it isn't because we haven't set any yet), mark as revealed
+3. start dfs from this first cell, mark immediate surrounding cells as revealed as well (they will not be bombs)
+4. from the neighbours, start the dfs and place mines in them or from them etc
+5. continue placing bombs until max num bombs reached
+
+when a mine is placed, increment value of non-mine cells around it
+
+
+user input handling:
+- how will i prompt the user
+- what kind of inputs am i expecting and how will i deal with invalid inputs 
+- differentiate between a reveal and a flag action 
+
+while input not q (because that means quit)
+do:
+    trim and lower input
+    check if last character of input isDigit
+    if isDigit, then we are revealing a cell
+        row = charAt(0)
+        column is substring (1, length)
+        check if this row and column exist in the grid
+            otherwise output invalid input, prompt to do again
+        reveal 
+    else if not isDigit, dealing with flagging 
+        row = charAt(0)
+        action = charAt(length - 1)
+        column is substring (1, length -1)
+        check if column or row or action invalid 
+            otherwise output invalid input, take new input
+        mark cell as flagged or unflagged if already flagged
+    else if q: quit
+    print updated grid and ask for new input 
+
+
+flagging mechanism:
+- how will i represent a flagged cell
+- what happens if a user flags an already flagged cell
+
+ok so 
+
+
+cell reveal logic:
+- what should happen if a cell is revealed
+- how will i handle the cascade reveal for cells with no adjacent mines
+- how will i manage edge cases, like for when a cell is on the border of the grid
+
+
+game end conditions:
+- how will i determine if a mine is clicked
+- what criteria determines a win
+- how will i communicate this to the player
