@@ -31,3 +31,5 @@ CHANGED MY MIND GOING TO DO RANDOMISED DEPTH FIRST SEARCH FROM THE BEGINNING
 07 Sept 2023
 
 still doing the pseudocode ;-;
+
+finished the pseudocode now i think idk i kinda gave up before the last bit but gonna stasrt the coding now (9pm lmao)
