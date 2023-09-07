@@ -7,7 +7,12 @@ grid {
     numMines = 10;
     numFlags = numMines;
 
+    print "  0  1  2  3  4  5  6  7  8 " 
+
     for y = 0; y<9; y++ {
+        char row = 'a' + y 
+        print row + " "
+        
         for x = 0; x<9; x++ {
             grid [y][x] = new Cell();
             print " " + grid[y][x].getDisplay() + " ";
@@ -79,7 +84,25 @@ flagging mechanism:
 - how will i represent a flagged cell
 - what happens if a user flags an already flagged cell
 
-ok so 
+ok so flagged cell represented by a !
+if a user glags an already flagged cell, then it unflags
+
+if action == 'f' 
+    cell.setFlagged()
+
+setFlagged() {  //in cell class probably
+    if isRevealed == true {
+        return
+    }
+    if display == "." {
+        isFlagged = true
+        display = "!"
+    }
+    else if display == "!" {
+        isFlagged = false
+        display = "#"
+    }
+}
 
 
 cell reveal logic:
@@ -87,8 +110,23 @@ cell reveal logic:
 - how will i handle the cascade reveal for cells with no adjacent mines
 - how will i manage edge cases, like for when a cell is on the border of the grid
 
+if cell is chosen, change display to value of cell
+    if value == "X" game over
+        set isRevealed = true
+    if value == "." and numMines = 0 
+        set isRevealed = true
+        recursively reveal cells around it as long as their numMines also = 0 and reveal their surrounds as well. exclude isFlagged = true
+        stop recursion if isRevealed = true, if isFlagged = true, if numMines > 0
+    if value == "." and numMines > 0
+        set isRevealed = true
+        reveal cell
+        display = numMines
+
+print new grid
+
 
 game end conditions:
 - how will i determine if a mine is clicked
 - what criteria determines a win
 - how will i communicate this to the player
+
