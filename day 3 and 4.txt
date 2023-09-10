@@ -33,3 +33,4 @@ CHANGED MY MIND GOING TO DO RANDOMISED DEPTH FIRST SEARCH FROM THE BEGINNING
 still doing the pseudocode ;-;
 
 finished the pseudocode now i think idk i kinda gave up before the last bit but gonna stasrt the coding now (9pm lmao)
+did cell class, started grid class
