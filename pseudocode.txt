@@ -85,7 +85,7 @@ flagging mechanism:
 - what happens if a user flags an already flagged cell
 
 ok so flagged cell represented by a !
-if a user glags an already flagged cell, then it unflags
+if a user flags an already flagged cell, then it unflags
 
 if action == 'f' 
     cell.setFlagged()
@@ -94,7 +94,7 @@ setFlagged() {  //in cell class probably
     if isRevealed == true {
         return
     }
-    if display == "." {
+    if display == "#" {
         isFlagged = true
         display = "!"
     }
@@ -113,11 +113,14 @@ cell reveal logic:
 if cell is chosen, change display to value of cell
     if value == "X" game over
         set isRevealed = true
-    if value == "." and numMines = 0 
+        set gameOver = true
+    if display != "#"
+        return
+    if value == "0"
         set isRevealed = true
         recursively reveal cells around it as long as their numMines also = 0 and reveal their surrounds as well. exclude isFlagged = true
         stop recursion if isRevealed = true, if isFlagged = true, if numMines > 0
-    if value == "." and numMines > 0
+    if value > 0
         set isRevealed = true
         reveal cell
         display = numMines

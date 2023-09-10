@@ -1,0 +1,15 @@
+10 Sept 2023
+
+Working on finishing grid class:
+needs methods to manipulate grid:
+    reveal cell
+    flag cell?
+    check for mines around a cell
+    print grid
+    game over method maybe
+    reset grid 
+    check is move valid
+
+MineGenerator class needed
+
+THIS IS TORTURE!!
