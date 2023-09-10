@@ -13,3 +13,5 @@ needs methods to manipulate grid:
 MineGenerator class needed
 
 THIS IS TORTURE!!
+
+all i did was plan what methods need to go in grid

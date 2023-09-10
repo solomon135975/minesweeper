@@ -24,5 +24,38 @@ public class Grid {
         }
     }
 
+    /** 
+     * reveal cells 
+     */
+    public void revealCell(int column, int row) {
+        if (!grid[column][row].alreadyRevealed() || !grid[column][row].alreadyFlagged()) {
+            grid[column][row].setRevealed();
+        }
 
+        //idk l
+    }
+
+    /**
+     * flag cell
+     */
+
+    /**
+     * check for mines around a cell
+     */
+
+    /**
+     * print grid
+     */
+
+    /**
+     * game over method (boolean)
+     */
+
+    /**
+     * reset grid
+     */
+
+    /**
+     * check is move valid (boolean)
+     */
 }

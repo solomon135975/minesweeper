@@ -70,4 +70,12 @@ public class Cell {
     public int getNumMines() {
         return this.numMines;
     }
+
+    public boolean alreadyRevealed() {
+        return isRevealed;
+    }
+
+    public boolean alreadyFlagged() {
+        return isFlagged;
+    }
 }
