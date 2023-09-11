@@ -31,3 +31,28 @@ gameOver should go in Minesweeps class
 
 PRINTGRID() WORKS THAT IS ALL I CARE ABOUT RN GOAL IS WITHIN REACH RN
 finished all other methods, still need to test them
+
+made little abstract of what minesweeper class will look like
+
+planning rdfs for mine generation:
+    - Starting point:
+        player chooses cell x,y. this is the starting point for the dfs
+        ensure that this cell and its immediate neighbours arent mines 
+    - initialisation:
+        create a list of all potential mine positions (all cells excluding the 3x3 beginner safe zone)
+        shuffle this list to randomise the order
+        place the mines in the first numMines cells of this shuffled list 
+    - DFS for mine placement
+        use dfs to decide where to place mines
+        start dfs from initial x,y cell
+        for each cell visited:
+            - if it's safe to place a mine (totalMines not reached && not in safe zone)
+            - if not, move to next unvisited cell
+        keep track of the mines placed
+        once numMines reached, dfs terminates
+    - increment surrounding cells:
+        when a mine is placed, increment nonmine cells around it
+            or
+        loop through all cells in grid, for each mine, increment the nonmine cells around it
+
+watch for edge cases (for out of bounds)
