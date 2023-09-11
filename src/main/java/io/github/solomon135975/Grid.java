@@ -6,6 +6,7 @@ public class Grid {
 
     private int totMines;
     private int numFlags;
+    private int numSafeCells;
 
     private Cell[][] grid;
 
@@ -14,6 +15,7 @@ public class Grid {
         this.numColumns = numColumns; 
         this.totMines = totMines;
         this.numFlags = totMines;
+        this.numSafeCells = numRows*numColumns - totMines;
 
         grid = new Cell[numColumns][numRows];
 
@@ -67,14 +69,6 @@ public class Grid {
     }
 
     /**
-     * print grid
-     */
-
-    /**
-     * game over method (boolean)
-     */
-
-    /**
      * reset grid
      */
     public void resetGrid() {
@@ -107,4 +101,97 @@ public class Grid {
             }
         }
     } 
+
+    /**
+     * print grid
+     */
+    public void printGrid() {   //need to check alignment
+        System.out.print("  ");
+        for (int i = 0; i<numRows; i++) {
+            System.out.print(" " + i + " ");
+        }
+        System.out.println("");
+        for (int y = 0; y<numColumns; y++) {
+            
+            char rowLabel = (char)('a' + y);
+            System.out.print(rowLabel + " ");
+            for (int x = 0; x<numRows; x++) {
+                System.out.print (" " + grid[y][x].getDisplay() + " ");
+            }
+            System.out.println("");
+        }
+    }
+
+    /**
+     * mine clicked 
+     */
+    public boolean isMineClicked(int column, int row) {
+        if (grid[column][row].getValue().equals("X") && grid[column][row].alreadyRevealed()) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * all mines flagged
+     */
+    public boolean allMinesFlagged() {
+        if (numFlags == 0) {
+            for (int y = 0; y < numColumns; y++) {
+                for (int x = 0; x < numRows; x++) {
+                    if ((grid[y][x].getValue().equals("X") && !grid[y][x].alreadyFlagged()) 
+                        || (!grid[y][x].getValue().equals("X") && grid[y][x].alreadyFlagged())) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * all safe cells revealed
+     */
+    public boolean allSafeCellsRevealed() {
+        for (int y = 0; y < numColumns; y++) {
+            for (int x = 0; x < numRows; x++) {
+                if((grid[y][x].getValue().equals("X") && grid[y][x].alreadyRevealed()) 
+                    || (!grid[y][x].getValue().equals("X") && !grid[y][x].alreadyRevealed())) {
+                        return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * num revealed cells
+     */
+    public int getNumRevealedCells() {
+        int numCellsRevealed = 0;
+        for (int y = 0; y < numColumns; y++) {
+            for (int x = 0; x < numRows; x++) {
+                if (grid[y][x].alreadyRevealed()) {
+                    numCellsRevealed++;
+                }
+            }
+        }
+        return numCellsRevealed;
+    }
+
+    /**
+     * num mines flagged
+     */
+    public int numMinesFlagged() {
+        int numMinesFlagged = 0;
+        for (int y = 0; y < numColumns; y++) {
+            for (int x = 0; x < numRows; x++) {
+                if (grid[y][x].getValue().equals("X") && grid[y][x].alreadyFlagged()) {
+                     numMinesFlagged++;
+                }
+            }
+        }
+        return numMinesFlagged;
+    }
 }

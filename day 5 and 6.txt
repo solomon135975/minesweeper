@@ -6,15 +6,28 @@ needs methods to manipulate grid:
     flag cell?
     check for mines around a cell
     print grid
-    game over method maybe
     reset grid 
     check is move valid
 
 MineGenerator class needed
 
-THIS IS TORTURE!!
-
 all i did was plan what methods need to go in grid
 
 11 Sept 2023
 
+realised grid class also needs these methods:
+    makeMove()
+    checkMove()
+    mineClicked()
+    allMinesFlagged()
+    allSafeCellsRevealed()
+    numRevealedCells()
+    numMinesFlagged()
+
+coded most of the methods, need to do print grid, gameOver that those 2
+made MineGenerator class to work with soon
+
+gameOver should go in Minesweeps class
+
+PRINTGRID() WORKS THAT IS ALL I CARE ABOUT RN GOAL IS WITHIN REACH RN
+finished all other methods, still need to test them
