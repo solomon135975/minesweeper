@@ -30,12 +30,14 @@ public class Cell {
             return;
         }
         this.isRevealed = true;
-        if (numMines == 0) {
+
+        if (numMines == 0 || isMine) {
             this.display = this.value;
         }
         else if (numMines > 0) {
             this.display = Integer.toString(numMines);
-        }
+        } 
+
     }
 
     public void setFlagged() {
