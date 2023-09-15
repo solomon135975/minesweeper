@@ -1,0 +1,7 @@
+12 Sept 2023
+
+gotta work on mine generation today
+rdfs might create patterns in the mine generation but can be more controlled
+fisher-yates shuffle method might cause clusters but it'll be properly random placement
+
+fisher-yates shuffle!!

@@ -6,7 +6,6 @@ public class Grid {
 
     private int totMines;
     private int numFlags;
-    private int numSafeCells;
 
     private Cell[][] grid;
 
@@ -15,13 +14,12 @@ public class Grid {
         this.numColumns = numColumns; 
         this.totMines = totMines;
         this.numFlags = totMines;
-        this.numSafeCells = numRows*numColumns - totMines;
 
         grid = new Cell[numColumns][numRows];
 
-        for (int y = 0; y < numColumns; y++) {
-            for (int x = 0; x < numRows; x++) {
-                grid[y][x] = new Cell();
+        for (int x = 0; x < numColumns; x++) {
+            for (int y = 0; y < numRows; y++) {
+                grid[x][y] = new Cell();
             }
         }
     }
@@ -37,10 +35,10 @@ public class Grid {
                 return;
             }
             else if (grid[column][row].getNumMines() == 0) {
-                for (int y = column -1; y < column + 2; y++) {
-                    for (int x = row -1; x<row+2; x++) {
-                        if ((y>-1 && y<numColumns) && (x>-1 && x<numRows) && !grid[y][x].alreadyRevealed()) {
-                            revealCell(y,x);
+                for (int x = column -1; x < column + 2; x++) {
+                    for (int y = row -1; y<row+2; y++) {
+                        if ((x>-1 && x<numColumns) && (y>-1 && y<numRows) && !grid[x][y].alreadyRevealed()) {
+                            revealCell(x,y);
                         }
                     }
                 }
@@ -72,9 +70,9 @@ public class Grid {
      * reset grid
      */
     public void resetGrid() {
-        for (int y = 0; y < numColumns; y++) {
-            for (int x = 0; x < numRows; x++) {
-                grid[y][x] = new Cell();
+        for (int x = 0; x < numColumns; x++) {
+            for (int y = 0; y < numRows; y++) {
+                grid[x][y] = new Cell();
             }
         }
     }
@@ -111,12 +109,12 @@ public class Grid {
             System.out.print(" " + i + " ");
         }
         System.out.println("");
-        for (int y = 0; y<numColumns; y++) {
+        for (int x = 0; x<numColumns; x++) {
             
-            char rowLabel = (char)('a' + y);
+            char rowLabel = (char)('a' + x);
             System.out.print(rowLabel + " ");
-            for (int x = 0; x<numRows; x++) {
-                System.out.print (" " + grid[y][x].getDisplay() + " ");
+            for (int y = 0; y<numRows; y++) {
+                System.out.print (" " + grid[x][y].getDisplay() + " ");
             }
             System.out.println("");
         }
@@ -137,10 +135,10 @@ public class Grid {
      */
     public boolean allMinesFlagged() {
         if (numFlags == 0) {
-            for (int y = 0; y < numColumns; y++) {
-                for (int x = 0; x < numRows; x++) {
-                    if ((grid[y][x].getValue().equals("X") && !grid[y][x].alreadyFlagged()) 
-                        || (!grid[y][x].getValue().equals("X") && grid[y][x].alreadyFlagged())) {
+            for (int x = 0; x < numColumns; x++) {
+                for (int y = 0; y < numRows; y++) {
+                    if ((grid[x][y].getValue().equals("X") && !grid[x][y].alreadyFlagged()) 
+                        || (!grid[x][y].getValue().equals("X") && grid[x][y].alreadyFlagged())) {
                         return false;
                     }
                 }
@@ -154,10 +152,10 @@ public class Grid {
      * all safe cells revealed
      */
     public boolean allSafeCellsRevealed() {
-        for (int y = 0; y < numColumns; y++) {
-            for (int x = 0; x < numRows; x++) {
-                if((grid[y][x].getValue().equals("X") && grid[y][x].alreadyRevealed()) 
-                    || (!grid[y][x].getValue().equals("X") && !grid[y][x].alreadyRevealed())) {
+        for (int x = 0; x < numColumns; x++) {
+            for (int y = 0; y < numRows; y++) {
+                if((grid[x][y].getValue().equals("X") && grid[x][y].alreadyRevealed()) 
+                    || (!grid[x][y].getValue().equals("X") && !grid[x][y].alreadyRevealed())) {
                         return false;
                 }
             }
@@ -170,9 +168,9 @@ public class Grid {
      */
     public int getNumRevealedCells() {
         int numCellsRevealed = 0;
-        for (int y = 0; y < numColumns; y++) {
-            for (int x = 0; x < numRows; x++) {
-                if (grid[y][x].alreadyRevealed()) {
+        for (int x = 0; x < numColumns; x++) {
+            for (int y = 0; y < numRows; y++) {
+                if (grid[x][y].alreadyRevealed()) {
                     numCellsRevealed++;
                 }
             }
@@ -185,13 +183,21 @@ public class Grid {
      */
     public int numMinesFlagged() {
         int numMinesFlagged = 0;
-        for (int y = 0; y < numColumns; y++) {
-            for (int x = 0; x < numRows; x++) {
-                if (grid[y][x].getValue().equals("X") && grid[y][x].alreadyFlagged()) {
+        for (int x = 0; x < numColumns; x++) {
+            for (int y = 0; y < numRows; y++) {
+                if (grid[x][y].getValue().equals("X") && grid[x][y].alreadyFlagged()) {
                      numMinesFlagged++;
                 }
             }
         }
         return numMinesFlagged;
+    }
+
+    public int getTotNumMines() {
+        return totMines;
+    }
+
+    public int getTotNumFlags() {
+        return numFlags;
     }
 }

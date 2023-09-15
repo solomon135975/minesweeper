@@ -30,15 +30,16 @@ made MineGenerator class to work with soon
 gameOver should go in Minesweeps class
 
 PRINTGRID() WORKS THAT IS ALL I CARE ABOUT RN GOAL IS WITHIN REACH RN
+
 finished all other methods, still need to test them
 
 made little abstract of what minesweeper class will look like
 
-planning rdfs for mine generation:
+planning for mine generation:
     - Starting point:
         player chooses cell x,y. this is the starting point for the dfs
         ensure that this cell and its immediate neighbours arent mines 
-    - initialisation:
+    - Fisher-Yates Shuffle Method:
         create a list of all potential mine positions (all cells excluding the 3x3 beginner safe zone)
         shuffle this list to randomise the order
         place the mines in the first numMines cells of this shuffled list 
