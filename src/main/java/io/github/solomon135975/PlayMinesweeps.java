@@ -8,7 +8,7 @@ public class PlayMinesweeps
 {
     public static void main( String[] args )
     {
-        Grid grid = new Grid(5,5,1);
+        Grid grid = new Grid(5,7,1);
         grid.printGrid();
     }
 }

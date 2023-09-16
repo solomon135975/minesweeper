@@ -15,30 +15,38 @@ public class Grid {
         this.totMines = totMines;
         this.numFlags = totMines;
 
-        grid = new Cell[numColumns][numRows];
+        grid = new Cell[numRows][numColumns];
 
-        for (int x = 0; x < numColumns; x++) {
-            for (int y = 0; y < numRows; y++) {
-                grid[x][y] = new Cell();
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numColumns; j++) {
+                grid[i][j] = new Cell();
             }
         }
+    }
+
+    public int getNumColumns() {
+        return numColumns;
+    }
+
+    public int getNumRows() {
+        return numRows;
     }
 
     /** 
      * reveal cells 
      */
-    public void revealCell(int column, int row) {
-        if (!grid[column][row].alreadyRevealed() && !grid[column][row].alreadyFlagged()) {
-            grid[column][row].setRevealed();
+    public void revealCell(int row, int column) {
+        if (!grid[row][column].alreadyRevealed() && !grid[row][column].alreadyFlagged()) {
+            grid[row][column].setRevealed();
 
-            if (grid[column][row].getValue().equals(("X")) || grid[column][row].getNumMines() > 0) {
+            if (grid[row][column].getValue().equals(("X")) || grid[row][column].getNumMines() > 0) {
                 return;
             }
-            else if (grid[column][row].getNumMines() == 0) {
-                for (int x = column -1; x < column + 2; x++) {
-                    for (int y = row -1; y<row+2; y++) {
-                        if ((x>-1 && x<numColumns) && (y>-1 && y<numRows) && !grid[x][y].alreadyRevealed()) {
-                            revealCell(x,y);
+            else if (grid[row][column].getNumMines() == 0) {
+                for (int i = row -1; i < row + 2; i++) {
+                    for (int j = column -1; j<column+2; j++) {
+                        if ((i>-1 && i<numRows) && (j>-1 && j<numColumns) && !grid[i][j].alreadyRevealed()) {
+                            revealCell(i,j);
                         }
                     }
                 }
@@ -49,9 +57,9 @@ public class Grid {
     /**
      * flag cell
      */
-    public void flagCell(int column, int row) {
-        if (!grid[column][row].alreadyRevealed()) {
-            grid[column][row].setFlagged();
+    public void flagCell(int row, int column) {
+        if (!grid[row][column].alreadyRevealed()) {
+            grid[row][column].setFlagged();
             numFlags--;
         }
     }
@@ -59,9 +67,9 @@ public class Grid {
     /**
      * check for mines around a cell
      */
-    public int checkForMines(int column, int row) {
-        if (!grid[column][row].getValue().equals("X")) {
-            return grid[column][row].getNumMines();
+    public int checkForMines(int row, int column) {
+        if (!grid[row][column].getValue().equals("X")) {
+            return grid[row][column].getNumMines();
         }
         return -1;
     }
@@ -70,9 +78,9 @@ public class Grid {
      * reset grid
      */
     public void resetGrid() {
-        for (int x = 0; x < numColumns; x++) {
-            for (int y = 0; y < numRows; y++) {
-                grid[x][y] = new Cell();
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numColumns; j++) {
+                grid[i][j] = new Cell();
             }
         }
     }
@@ -80,7 +88,7 @@ public class Grid {
     /**
      * check is move valid (boolean)
      */
-    public boolean checkMove(int column, int row, char action) {
+    public boolean checkMove(int row, int column, char action) {
         return (column >= 0) && (column < numColumns) && 
             (row >= 0) && (row < numRows) && 
             (action == 'f' || action == '\0');
@@ -89,13 +97,13 @@ public class Grid {
     /**
      * make move action
      */
-    public void makeMove(int column, int row, char action) {
-        if (checkMove(column, row, action)) {
+    public void makeMove(int row, int column, char action) {
+        if (checkMove(row, column, action)) {
             if (action == 'f') {
-            flagCell(column, row);
+            flagCell(row, column);
             }
         else {
-            revealCell(column, row);
+            revealCell(row, column);
             }
         }
     } 
@@ -105,16 +113,15 @@ public class Grid {
      */
     public void printGrid() {   //need to check alignment
         System.out.print("  ");
-        for (int i = 0; i<numRows; i++) {
+        for (int i = 0; i<numColumns; i++) {
             System.out.print(" " + i + " ");
         }
         System.out.println("");
-        for (int x = 0; x<numColumns; x++) {
-            
-            char rowLabel = (char)('a' + x);
+        for (int i = 0; i<numRows; i++) {
+            char rowLabel = (char)('a' + i);
             System.out.print(rowLabel + " ");
-            for (int y = 0; y<numRows; y++) {
-                System.out.print (" " + grid[x][y].getDisplay() + " ");
+            for (int j = 0; j<numColumns; j++) {
+                System.out.print (" " + grid[i][j].getDisplay() + " ");
             }
             System.out.println("");
         }
@@ -123,8 +130,8 @@ public class Grid {
     /**
      * mine clicked 
      */
-    public boolean isMineClicked(int column, int row) {
-        if (grid[column][row].getValue().equals("X") && grid[column][row].alreadyRevealed()) {
+    public boolean isMineClicked(int row, int column) {
+        if (grid[row][column].getValue().equals("X") && grid[row][column].alreadyRevealed()) {
             return true;
         }
         return false;
@@ -135,10 +142,10 @@ public class Grid {
      */
     public boolean allMinesFlagged() {
         if (numFlags == 0) {
-            for (int x = 0; x < numColumns; x++) {
-                for (int y = 0; y < numRows; y++) {
-                    if ((grid[x][y].getValue().equals("X") && !grid[x][y].alreadyFlagged()) 
-                        || (!grid[x][y].getValue().equals("X") && grid[x][y].alreadyFlagged())) {
+            for (int i = 0; i < numRows; i++) {
+                for (int j = 0; j < numColumns; j++) {
+                    if ((grid[i][j].getValue().equals("X") && !grid[i][j].alreadyFlagged()) 
+                        || (!grid[i][j].getValue().equals("X") && grid[i][j].alreadyFlagged())) {
                         return false;
                     }
                 }
@@ -152,10 +159,10 @@ public class Grid {
      * all safe cells revealed
      */
     public boolean allSafeCellsRevealed() {
-        for (int x = 0; x < numColumns; x++) {
-            for (int y = 0; y < numRows; y++) {
-                if((grid[x][y].getValue().equals("X") && grid[x][y].alreadyRevealed()) 
-                    || (!grid[x][y].getValue().equals("X") && !grid[x][y].alreadyRevealed())) {
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numColumns; j++) {
+                if((grid[i][j].getValue().equals("X") && grid[i][j].alreadyRevealed()) 
+                    || (!grid[i][j].getValue().equals("X") && !grid[i][j].alreadyRevealed())) {
                         return false;
                 }
             }
@@ -168,9 +175,9 @@ public class Grid {
      */
     public int getNumRevealedCells() {
         int numCellsRevealed = 0;
-        for (int x = 0; x < numColumns; x++) {
-            for (int y = 0; y < numRows; y++) {
-                if (grid[x][y].alreadyRevealed()) {
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numColumns; j++) {
+                if (grid[i][j].alreadyRevealed()) {
                     numCellsRevealed++;
                 }
             }
@@ -183,9 +190,9 @@ public class Grid {
      */
     public int numMinesFlagged() {
         int numMinesFlagged = 0;
-        for (int x = 0; x < numColumns; x++) {
-            for (int y = 0; y < numRows; y++) {
-                if (grid[x][y].getValue().equals("X") && grid[x][y].alreadyFlagged()) {
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numColumns; j++) {
+                if (grid[i][j].getValue().equals("X") && grid[i][j].alreadyFlagged()) {
                      numMinesFlagged++;
                 }
             }

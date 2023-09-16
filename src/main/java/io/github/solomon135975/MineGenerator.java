@@ -1,8 +1,10 @@
 package io.github.solomon135975;
 
-import java.util.Random; 
+import java.util.Random;
+import java.util.ArrayList;
 import java.util.Arrays;
-
+import java.awt.Point;
+import java.util.List;
 
 /* idea: 
  * planning rdfs for mine generation:
@@ -20,11 +22,32 @@ import java.util.Arrays;
  */
 
 public class MineGenerator {
+    List <Point> potentialMines = new ArrayList<>();
+    Random rand = new Random();
 
-    public Grid generateMines(Grid grid, int startCol, int startRow) {
+    public Grid generateMines(Grid grid, int startRow, int startCol) {
+        int numColumns = grid.getNumColumns();
+        int numRows = grid.getNumRows();
         int totMines = grid.getTotNumMines();
-        
 
+        for (int i = 0; i < numColumns; i++) {
+            for (int j = 0; j < numRows; j ++) {
+                potentialMines.add(new Point(i,j));
+            }
+        }
+        for (int i = startRow -1; i < startRow + 2; i++) {
+            for (int j = startCol -1; j<startCol+2; j++) {
+                Point hasToBeSafeCell = new Point(i,j);
+                potentialMines.remove(hasToBeSafeCell);
+            }
+        }
+
+
+        
         return grid;
+    }
+    
+    public void randomiseCellList (int lengthOfList) {
+        
     }
 }
