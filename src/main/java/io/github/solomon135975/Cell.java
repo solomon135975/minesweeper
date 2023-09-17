@@ -54,8 +54,8 @@ public class Cell {
         }
     }
 
-    public void incrMines() {
-        if (!this.value.equals("X")){
+    public void incrNumNeighbourMines() {
+        if (!isMine){
             this.numMines ++;
             this.value = Integer.toString(numMines);
         }
@@ -80,4 +80,16 @@ public class Cell {
     public boolean alreadyFlagged() {
         return isFlagged;
     }
+
+    public boolean isAMine() {
+        return isMine;
+    }
+
+    public void removeMine() {
+        if (this.isMine) {
+            this.isMine = false;
+            this.value = Integer.toString(numMines);
+        }
+    }
+
 }

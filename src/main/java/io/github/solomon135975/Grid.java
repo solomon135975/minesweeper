@@ -24,6 +24,18 @@ public class Grid {
         }
     }
 
+    public void clearAllMines() {
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numColumns; j++) {
+                grid[i][j].removeMine();
+            }
+        }
+    }
+
+    public Cell getCellAt(int row, int column) {
+        return grid[row][column];
+    }
+
     public int getNumColumns() {
         return numColumns;
     }
@@ -45,7 +57,7 @@ public class Grid {
             else if (grid[row][column].getNumMines() == 0) {
                 for (int i = row -1; i < row + 2; i++) {
                     for (int j = column -1; j<column+2; j++) {
-                        if ((i>-1 && i<numRows) && (j>-1 && j<numColumns) && !grid[i][j].alreadyRevealed()) {
+                        if ((i>=0 && i<numRows) && (j>=0 && j<numColumns) && !grid[i][j].alreadyRevealed()) {
                             revealCell(i,j);
                         }
                     }
@@ -61,6 +73,19 @@ public class Grid {
         if (!grid[row][column].alreadyRevealed()) {
             grid[row][column].setFlagged();
             numFlags--;
+        }
+    }
+
+    public void setMineAtCell(int row, int column) {
+        if (row >= 0 && row < numRows && column >= 0 && column < numColumns && !grid[row][column].getValue().equals("X")) {
+            grid[row][column].setMine();
+            for (int i = row -1; i < row + 2; i++) {
+                for (int j = column -1; j<column+2; j++) {
+                    if ((i>=0 && i<numRows) && (j>=0 && j<numColumns) && !grid[i][j].isAMine()) {
+                        grid[i][j].incrNumNeighbourMines();
+                    }
+                }
+            }
         }
     }
 

@@ -33,11 +33,11 @@ PRINTGRID() WORKS THAT IS ALL I CARE ABOUT RN GOAL IS WITHIN REACH RN
 
 finished all other methods, still need to test them
 
-made little abstract of what minesweeper class will look like
+made little abstract of what minesweeper class will look like (added empty methods)
 
 planning for mine generation:
     - Starting point:
-        player chooses cell x,y. this is the starting point for the dfs
+        player chooses cell x,y. this is the starting point for mine generation
         ensure that this cell and its immediate neighbours arent mines 
     - Fisher-Yates Shuffle Method:
         create a list of all potential mine positions (all cells excluding the 3x3 beginner safe zone)
