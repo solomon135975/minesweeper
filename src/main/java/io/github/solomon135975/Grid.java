@@ -229,7 +229,7 @@ public class Grid {
         return totMines;
     }
 
-    public int getTotNumFlags() {
+    public int getNumFlags() {
         return numFlags;
     }
 }
