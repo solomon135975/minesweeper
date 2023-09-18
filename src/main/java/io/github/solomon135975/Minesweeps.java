@@ -36,6 +36,18 @@ public class Minesweeps {
             return false;
         }
         
+        char firstChar = move.charAt(0);
+        if (firstChar < 'a' || firstChar > 'a' + 9) {
+            return false;
+        }
+
+        char lastChar = move.charAt(move.length() - 1);
+        if (lastChar != 'f' && (lastChar <'0' || lastChar > '9')) {
+            return false;
+        }
+
+        
+
         return true;
     }
 
