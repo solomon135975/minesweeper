@@ -38,22 +38,16 @@ public class MineGenerator {
             }
         }
 
-        int minesPlaced = 0;
-        int index = 0;
-        while (minesPlaced < totMines) {
-            Point newMine = potentialMines.get(index);
-            int row = (int) newMine.getX();
-            int col = (int) newMine.getY();
-
-            if (!grid.getCellAt(row, col).isAMine()) {
-                grid.setMineAtCell(row, col);
-                minesPlaced++;
+        for (int i = startRow -1; i < startRow + 2; i++) {
+            for (int j = startCol -1; j < startCol + 2; j++) {
+                if ((i>=0 && i<numRows) && (j>=0 && j<numColumns)) {
+                    Point temp = new Point(i,j);
+                    potentialMines.remove(temp);
+                }
             }
-            index++;
         }
 
         shufflePotentialMines(); 
-        
         placeMines(grid, totMines);
     }
 
@@ -68,10 +62,7 @@ public class MineGenerator {
             int row = (int) potentialMine.getX();
             int col = (int) potentialMine.getY();
             
-            if (!grid.getCellAt(row, col).isAMine()) {
-                grid.setMineAtCell(row, col);
-            }
-
+            grid.setMineAtCell(row, col);
             minesToPlace--;
 
         }

@@ -4,6 +4,8 @@ public class Grid {
     private int numRows;
     private int numColumns;
 
+    private static final String mineVal = "X";
+
     private int totMines;
     private int numFlags;
 
@@ -51,7 +53,7 @@ public class Grid {
         if (!grid[row][column].alreadyRevealed() && !grid[row][column].alreadyFlagged()) {
             grid[row][column].setRevealed();
 
-            if (grid[row][column].getValue().equals(("X")) || grid[row][column].getNumMines() > 0) {
+            if (grid[row][column].getValue().equals((mineVal)) || grid[row][column].getNumMines() > 0) {
                 return;
             }
             else if (grid[row][column].getNumMines() == 0) {
@@ -74,10 +76,13 @@ public class Grid {
             grid[row][column].setFlagged();
             numFlags--;
         }
+        else {
+            System.out.println("can't flag a cell thats revealed :/");
+        }
     }
 
     public void setMineAtCell(int row, int column) {
-        if (row >= 0 && row < numRows && column >= 0 && column < numColumns && !grid[row][column].getValue().equals("X")) {
+        if (row >= 0 && row < numRows && column >= 0 && column < numColumns && !grid[row][column].getValue().equals(mineVal)) {
             grid[row][column].setMine();
             for (int i = row -1; i < row + 2; i++) {
                 for (int j = column -1; j<column+2; j++) {
@@ -93,7 +98,7 @@ public class Grid {
      * check for mines around a cell
      */
     public int checkForMines(int row, int column) {
-        if (!grid[row][column].getValue().equals("X")) {
+        if (!grid[row][column].getValue().equals(mineVal)) {
             return grid[row][column].getNumMines();
         }
         return -1;
@@ -111,32 +116,28 @@ public class Grid {
     }
 
     /**
-     * check is move valid (boolean)
-     */
-    public boolean checkMove(int row, int column, char action) {
-        return (column >= 0) && (column < numColumns) && 
-            (row >= 0) && (row < numRows) && 
-            (action == 'f' || action == '\0');
-    }
-
-    /**
      * make move action
      */
     public void makeMove(int row, int column, char action) {
-        if (checkMove(row, column, action)) {
-            if (action == 'f') {
+        if (action == 'f') {
             flagCell(row, column);
+            if (grid[row][column].getDisplay().equals("!")) {
+                System.out.println("flagged " + (char) ('a' + row) + column + "\n"); 
             }
+            else {
+                System.out.println("unflagged " + (char) ('a' + row) + column + "\n"); 
+            }
+        }
         else {
             revealCell(row, column);
-            }
+            System.out.println("revealed cell(s)!");
         }
     } 
 
     /**
      * print grid
      */
-    public void printGrid() {   //need to check alignment
+    public void printGrid() {   
         System.out.print("  ");
         for (int i = 0; i<numColumns; i++) {
             System.out.print(" " + i + " ");
@@ -152,25 +153,38 @@ public class Grid {
         }
     }
 
+    public void printRevealedGrid() {
+        System.out.print("  ");
+        for (int i = 0; i<numColumns; i++) {
+            System.out.print(" " + i + " ");
+        }
+        System.out.println("");
+        for (int i = 0; i<numRows; i++) {
+            char rowLabel = (char)('a' + i);
+            System.out.print(rowLabel + " ");
+            for (int j = 0; j<numColumns; j++) {
+                System.out.print (" " + grid[i][j].getValue() + " ");
+            }
+            System.out.println("");
+        }
+    }
+    
     /**
      * mine clicked 
      */
     public boolean isMineClicked(int row, int column) {
-        if (grid[row][column].getValue().equals("X") && grid[row][column].alreadyRevealed()) {
-            return true;
-        }
-        return false;
+        return grid[row][column].getValue().equals(mineVal) && grid[row][column].alreadyRevealed();
     }
-
+   
     /**
      * all mines flagged
      */
-    public boolean allMinesFlagged() {
+    public boolean areAllMinesFlagged() {
         if (numFlags == 0) {
             for (int i = 0; i < numRows; i++) {
                 for (int j = 0; j < numColumns; j++) {
-                    if ((grid[i][j].getValue().equals("X") && !grid[i][j].alreadyFlagged()) 
-                        || (!grid[i][j].getValue().equals("X") && grid[i][j].alreadyFlagged())) {
+                    if ((grid[i][j].getValue().equals(mineVal) && !grid[i][j].alreadyFlagged()) 
+                        || (!grid[i][j].getValue().equals(mineVal) && grid[i][j].alreadyFlagged())) {
                         return false;
                     }
                 }
@@ -186,8 +200,8 @@ public class Grid {
     public boolean allSafeCellsRevealed() {
         for (int i = 0; i < numRows; i++) {
             for (int j = 0; j < numColumns; j++) {
-                if((grid[i][j].getValue().equals("X") && grid[i][j].alreadyRevealed()) 
-                    || (!grid[i][j].getValue().equals("X") && !grid[i][j].alreadyRevealed())) {
+                if((grid[i][j].getValue().equals(mineVal) && grid[i][j].alreadyRevealed()) 
+                    || (!grid[i][j].getValue().equals(mineVal) && !grid[i][j].alreadyRevealed())) {
                         return false;
                 }
             }
@@ -217,7 +231,7 @@ public class Grid {
         int numMinesFlagged = 0;
         for (int i = 0; i < numRows; i++) {
             for (int j = 0; j < numColumns; j++) {
-                if (grid[i][j].getValue().equals("X") && grid[i][j].alreadyFlagged()) {
+                if (grid[i][j].getValue().equals(mineVal) && grid[i][j].alreadyFlagged()) {
                      numMinesFlagged++;
                 }
             }
