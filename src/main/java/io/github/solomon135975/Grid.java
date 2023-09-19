@@ -4,10 +4,10 @@ public class Grid {
     private int numRows;
     private int numColumns;
 
-    private static final String mineVal = "X";
+    private static final String mineVal = "X";   //the value of a mine cell
 
-    private int totMines;
-    private int numFlags;
+    private int totMines;  //total number of mines in the grid
+    private int numFlags;  //total number of flags allowed to be used (= num of mines)
 
     private Cell[][] grid;
 
@@ -26,6 +26,10 @@ public class Grid {
         }
     }
 
+    /**
+     * uses the removeMine() method in Cell class to clear all the mines in a grid
+     * this is only used when generating the mines to ensure a clean slate grid
+     */
     public void clearAllMines() {
         for (int i = 0; i < numRows; i++) {
             for (int j = 0; j < numColumns; j++) {
@@ -34,20 +38,39 @@ public class Grid {
         }
     }
 
+    /**
+     * returns a cell at the given row/column position
+     * @param row
+     * @param column
+     * @return
+     */
     public Cell getCellAt(int row, int column) {
         return grid[row][column];
     }
 
+    /**
+     * returns the number of columns for the grid
+     */
     public int getNumColumns() {
         return numColumns;
     }
 
+    /**
+     * returns the number of rows for the grid
+     * @return
+     */
     public int getNumRows() {
         return numRows;
     }
 
     /** 
      * reveal cells 
+     * if cell is already revealed or if cell is flagged nothing happens, otherwise cell is set to revealed
+     * 
+     * if the cell is a mine or the number of mines around the nonmine cell > 0, return 
+     * 
+     * if the number of mines around the cell is 0, then cascade reveal
+     * recursively reveal all cells around the 0 cell
      */
     public void revealCell(int row, int column) {
         if (!grid[row][column].alreadyRevealed() && !grid[row][column].alreadyFlagged()) {
@@ -70,17 +93,26 @@ public class Grid {
 
     /**
      * flag cell
+     * sets a cell in the grid as flaggeed as long as it isn't already revealed
      */
     public void flagCell(int row, int column) {
         if (!grid[row][column].alreadyRevealed()) {
             grid[row][column].setFlagged();
-            numFlags--;
-        }
-        else {
-            System.out.println("can't flag a cell thats revealed :/");
+            if (grid[row][column].alreadyFlagged()) {
+                numFlags--;
+            }
+            else {
+                numFlags++;
+            }
         }
     }
 
+    /**
+     * sets a cell as a mine and calls the incrNumNeighbourMines() method from Cell to increase the values of the cells around it
+     * this is used in the mine generation method of MineGenerator class
+     * @param row
+     * @param column
+     */
     public void setMineAtCell(int row, int column) {
         if (row >= 0 && row < numRows && column >= 0 && column < numColumns && !grid[row][column].getValue().equals(mineVal)) {
             grid[row][column].setMine();
@@ -96,6 +128,7 @@ public class Grid {
 
     /**
      * check for mines around a cell
+     * this returns the number of mines around a cell as long as as it isn't a mine
      */
     public int checkForMines(int row, int column) {
         if (!grid[row][column].getValue().equals(mineVal)) {
@@ -106,6 +139,7 @@ public class Grid {
 
     /**
      * reset grid
+     * resets the grid by initialising a new cell in each position of the grid
      */
     public void resetGrid() {
         for (int i = 0; i < numRows; i++) {
@@ -117,6 +151,8 @@ public class Grid {
 
     /**
      * make move action
+     * this actually processes the move as well as provides user feedback for what move was made
+     * calls the flag or reveal function
      */
     public void makeMove(int row, int column, char action) {
         if (action == 'f') {
@@ -124,8 +160,11 @@ public class Grid {
             if (grid[row][column].getDisplay().equals("!")) {
                 System.out.println("flagged " + (char) ('a' + row) + column + "\n"); 
             }
-            else {
+            else if (grid[row][column].getDisplay().equals("#")) {
                 System.out.println("unflagged " + (char) ('a' + row) + column + "\n"); 
+            }
+            else if (grid[row][column].alreadyRevealed()) {
+                System.out.println("can't flag a cell thats revealed :/");
             }
         }
         else {
@@ -136,6 +175,7 @@ public class Grid {
 
     /**
      * print grid
+     * prints the grid using the display value, this is what the user sees when playing
      */
     public void printGrid() {   
         System.out.print("  ");
@@ -153,6 +193,9 @@ public class Grid {
         }
     }
 
+    /**
+     * this prints the grid will all values revealed for a game over scenario
+     */
     public void printRevealedGrid() {
         System.out.print("  ");
         for (int i = 0; i<numColumns; i++) {
@@ -171,6 +214,7 @@ public class Grid {
     
     /**
      * mine clicked 
+     * checks if a mine has been clicked
      */
     public boolean isMineClicked(int row, int column) {
         return grid[row][column].getValue().equals(mineVal) && grid[row][column].alreadyRevealed();
@@ -178,6 +222,7 @@ public class Grid {
    
     /**
      * all mines flagged
+     * checks whether or not all mines are flagged
      */
     public boolean areAllMinesFlagged() {
         if (numFlags == 0) {
@@ -196,6 +241,7 @@ public class Grid {
 
     /**
      * all safe cells revealed
+     * checks if all the safe cells have been revealed so that a gameWon situation can happen
      */
     public boolean allSafeCellsRevealed() {
         for (int i = 0; i < numRows; i++) {
@@ -211,6 +257,7 @@ public class Grid {
 
     /**
      * num revealed cells
+     * gets the number of revealed cells 
      */
     public int getNumRevealedCells() {
         int numCellsRevealed = 0;
@@ -226,6 +273,7 @@ public class Grid {
 
     /**
      * num mines flagged
+     * get the number of mines that are flagged
      */
     public int numMinesFlagged() {
         int numMinesFlagged = 0;
@@ -239,10 +287,18 @@ public class Grid {
         return numMinesFlagged;
     }
 
+    /**
+     * returns the total number of mines in the grid
+     * @return
+     */
     public int getTotNumMines() {
         return totMines;
     }
 
+    /**
+     * returns the number of flags for the grid
+     * @return
+     */
     public int getNumFlags() {
         return numFlags;
     }

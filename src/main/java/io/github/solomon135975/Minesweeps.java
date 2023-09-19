@@ -11,19 +11,23 @@ public class Minesweeps {
     private final int numCols = 9;
     private final int numMines = 10;
     private Grid grid = new Grid(numRows,numCols,numMines);
-    private String rules = "Q: quit\n" + "To flag: [row][col]f | e.g.: a4f\n" + 
-                            "To reveal: [row][col] | e.g.: g7\n" + "Num flags left: " + grid.getNumFlags()+ "\n";
 
-    //to play the game
+    /**
+     * manages the game loop
+     * handles game state (gameOnGoing)
+     */
     public void playMinesweeper() {
+
+        String rules = "Q: quit\n" + "To flag: [row][col]f | e.g.: a4f\n" + 
+                            "To reveal: [row][col] | e.g.: g7\n" + "Num flags left: ";
 
         Scanner scanner = new Scanner(System.in);
         MineGenerator mineGen = new MineGenerator();
 
-        System.out.println (rules);
+        System.out.println (rules + grid.getNumFlags());
         grid.printGrid();
 
-        String firstMove = handleFirstMove(scanner);
+        String firstMove = handleFirstMove(scanner, rules);
 
         if (!gameOngoing) {
             System.out.println("thanks for playing");
@@ -35,10 +39,10 @@ public class Minesweeps {
         executeMove(firstMove);
 
         while (gameOngoing) {
-            System.out.println (rules);
+            System.out.println (rules + grid.getNumFlags());
             grid.printGrid();
 
-            String move = readUserInput(scanner);
+            String move = readUserInput(scanner, rules);
 
             if (!gameOngoing) {
                 System.out.println("thanks for playing");
@@ -53,7 +57,7 @@ public class Minesweeps {
         scanner.close();
     }
 
-    private String readUserInput(Scanner scanner) {
+    private String readUserInput(Scanner scanner, String rules) {
         String move = scanner.nextLine().toLowerCase().trim().replace(" ", "");
 
         if (move.equals("q")) {
@@ -63,15 +67,15 @@ public class Minesweeps {
         }
 
         while (!checkInputValid(move)) {
-            System.out.println ("try enter a correct input this time" + rules);
+            System.out.println ("try enter a correct input this time" + rules + grid.getNumFlags());
             grid.printGrid();
             move = scanner.nextLine();
         }
         return move;
     }
 
-    private String handleFirstMove(Scanner scanner) {
-        String firstMove = readUserInput(scanner);
+    private String handleFirstMove(Scanner scanner, String rules) {
+        String firstMove = readUserInput(scanner, rules);
 
         if (firstMove.equals("q")) {
             gameOngoing = false;
@@ -80,7 +84,7 @@ public class Minesweeps {
         }
 
         while (getAction(firstMove) == 'f') {
-            System.out.println ("pls dont flag your first move :)" + rules);
+            System.out.println ("pls dont flag your first move :)" + rules + grid.getNumFlags());
             grid.printGrid();
             firstMove = scanner.nextLine();
         }
@@ -89,13 +93,13 @@ public class Minesweeps {
 
     private boolean checkGameOngoing(int row, int col, char action) {
         if (hasPlayerWon()) {
-            System.out.println("WIN!!!!!!!!!");
+            System.out.println("\nWIN!!!!!!!!!");
             gameOngoing = false;
             gameOver();
             return true;
         }
         else if (hasPlayerLost(row, col, action)) {
-            System.out.println("Woopsies! You clicked a mine, game over :(");
+            System.out.println("\nWoopsies! You clicked a mine, game over :(");
             gameOngoing = false;
             gameOver();
             return true;
