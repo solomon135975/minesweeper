@@ -1,8 +1,8 @@
 package io.github.solomon135975;
 
 /**
- * play game
- *
+ * PlayMinesweeps class
+ * the function of this class is just to intialise a Minesweeps object called game and call it in the main method
  */
 public class PlayMinesweeps {
 

@@ -1,0 +1,27 @@
+18 Sept 2023
+
+working on game logic/text interface
+almost done i think
+
+if ever want grid to be bigger or have more mines, need to consider:
+- print method changing to handle double digits/wider cells
+- a couple other methods actually
+- checkInputValid()
+
+
+finished game logic
+need to fix mine generator - remove safe zone, forgot to do that woops
+
+19 Sept 2023
+
+- forgot to remove safe zone in mine generation   ->    fixed
+- need to check win conditions and minesweeps logic in general i think  -> i think it works
+- flags dont decrement - works 
+
+need to comment classes
+
+20 Sept 2023
+
+- finishing commenting
+- start researching JavaFX
+- need to do readme

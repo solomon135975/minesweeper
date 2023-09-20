@@ -1,5 +1,11 @@
 package io.github.solomon135975;
 
+/**
+ * this is the Grid class which is the actual grid of row by col cells 
+ * the grid holds cells in a 2D array, the cells may or may not be a mine
+ * the class has methods which allow one to interact with the cells and the grid itself
+ * also has methods to print the current grid display as well as the capability to print the revealed grid
+ */
 public class Grid {
     private int numRows;
     private int numColumns;

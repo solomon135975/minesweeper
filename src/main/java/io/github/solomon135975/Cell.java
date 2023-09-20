@@ -1,11 +1,17 @@
 package io.github.solomon135975;
+
+/**
+ * this Cell class handles an individual cell/position in the grid
+ * each cell has attributes to track its state, e.g. isMine, isRevealed, isFlagged, numMines (around the cell), value, display
+ * there are methods to manipulate these attributes and retrieve them
+ */
 public class Cell {
 
     private boolean isMine;
     private boolean isRevealed;
     private boolean isFlagged;
 
-    private int numMines;
+    private int numMines;  //number of mines around the cell
 
     private String value;  //value of the cell, determines if it's a mine or not
     private String display;  //what displays in the actual grid

@@ -2,6 +2,10 @@ package io.github.solomon135975;
 
 import java.util.Scanner;
 
+/**
+ * Minesweeps class
+ * this class handles the game loop and related methods to the overall game state
+ */
 public class Minesweeps {
 
     private boolean gameWon = false;
@@ -14,7 +18,7 @@ public class Minesweeps {
 
     /**
      * manages the game loop
-     * handles game state (gameOnGoing)
+     * handles game state (gameOnGoing, gameWon, gameLost)
      */
     public void playMinesweeper() {
 
@@ -57,6 +61,12 @@ public class Minesweeps {
         scanner.close();
     }
 
+    /**
+     * takes the user's input while it isnt valid
+     * @param scanner
+     * @param rules
+     * @return
+     */
     private String readUserInput(Scanner scanner, String rules) {
         String move = scanner.nextLine().toLowerCase().trim().replace(" ", "");
 
@@ -74,6 +84,13 @@ public class Minesweeps {
         return move;
     }
 
+    /**
+     * handles the first move and validates it
+     * it can't be a flag move because the mine generation is based on the first cell chosen
+     * @param scanner
+     * @param rules
+     * @return
+     */
     private String handleFirstMove(Scanner scanner, String rules) {
         String firstMove = readUserInput(scanner, rules);
 
@@ -91,6 +108,13 @@ public class Minesweeps {
         return firstMove;
     }
 
+    /**
+     * this checks whether the game is still playable - i.e. has not been lost or won
+     * @param row
+     * @param col
+     * @param action
+     * @return
+     */
     private boolean checkGameOngoing(int row, int col, char action) {
         if (hasPlayerWon()) {
             System.out.println("\nWIN!!!!!!!!!");
@@ -107,6 +131,10 @@ public class Minesweeps {
         return false;
     }
     
+    /**
+     * executes a move by splitting the move into the action, row and column
+     * @param move
+     */
     private void executeMove(String move) {
         char action = getAction(move);
         int row = getRow(move);
@@ -114,8 +142,14 @@ public class Minesweeps {
         grid.makeMove(row, column, action);
     }
 
+    /**
+     * this checks if the input is valid
+     * user can't pass an empty string, or a string longer than what's expected (3 but this will be adjusted for larger grids) or less than what's expected (min 2)
+     * @param move
+     * @return
+     */
     private boolean checkInputValid(String move) {
-        if (move == null || move.isEmpty() || move.length() > 3) {
+        if (move == null || move.isEmpty() || move.length() > 3 || move.length()<2) {
             return false;
         }
         
@@ -145,26 +179,50 @@ public class Minesweeps {
         return true;
     }
 
+    /**
+     * returns the action of the move
+     * if f then return f for flag or null if it isn't f 
+     * @param move
+     * @return
+     */
     private char getAction(String move) {
         return move.charAt(move.length() - 1) == 'f' ? 'f' : '\0';
     }
 
+    /**
+     * this gets the row of the move made 
+     * each row is labelled by a letter so needs to subtract the value of 'a' to get the row number
+     * @param move
+     * @return
+     */
     private int getRow(String move) {
         return move.charAt(0) - 'a'; 
     }
 
+    /**
+     * returns the column of the move
+     * @param move
+     * @return
+     */
     private int getColumn(String move) {
         String num = move.substring(1, move.length() - (getAction(move) == 'f' ? 1 : 0));
         return Integer.parseInt(num);
     }
 
+    /**
+     * if the game is over, it returns these statistics from the game and prints the revealed grid
+     */
     private void gameOver() {
         System.out.println("You flagged " + grid.numMinesFlagged() + " mines out of " + numMines);
         System.out.println("You revealed " + (grid.getNumRevealedCells() - 1) + " safe cells of " + numCols*numRows);
         grid.printRevealedGrid();
-        //print revealed grid
     }
 
+    /**
+     * this checks if the player has won
+     * to win, player needs to have revealed all the safe cells
+     * @return
+     */
     private boolean hasPlayerWon() {
         if (grid.allSafeCellsRevealed()) {
             gameWon = true;
@@ -173,6 +231,14 @@ public class Minesweeps {
         return false;
     }
 
+    /**
+     * checks if the player has lost
+     * to lose, the player needs to have clicked a mine
+     * @param row
+     * @param col
+     * @param action
+     * @return
+     */
     private boolean hasPlayerLost(int row, int col, char action) {
         if (grid.isMineClicked(row, col)) {
             gameLost = true;
