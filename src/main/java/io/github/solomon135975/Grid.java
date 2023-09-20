@@ -186,14 +186,19 @@ public class Grid {
     public void printGrid() {   
         System.out.print("  ");
         for (int i = 0; i<numColumns; i++) {
-            System.out.print(" " + i + " ");
+            if (i < 10) {
+                System.out.print("  " + i + " ");
+            }
+            else {
+                System.out.print(" " + i + " ");
+            }
         }
         System.out.println("");
         for (int i = 0; i<numRows; i++) {
             char rowLabel = (char)('a' + i);
             System.out.print(rowLabel + " ");
             for (int j = 0; j<numColumns; j++) {
-                System.out.print (" " + grid[i][j].getDisplay() + " ");
+                System.out.print (" " + grid[i][j].getDisplay() + "  ");
             }
             System.out.println("");
         }

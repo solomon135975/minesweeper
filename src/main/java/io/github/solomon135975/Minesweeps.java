@@ -11,10 +11,17 @@ public class Minesweeps {
     private boolean gameWon = false;
     private boolean gameLost = false;
     private boolean gameOngoing = true;
-    private final int numRows = 9;
-    private final int numCols = 9;
-    private final int numMines = 10;
-    private Grid grid = new Grid(numRows,numCols,numMines);
+    private final int numRows;
+    private final int numCols;
+    private final int numMines;
+    private Grid grid;
+
+    public Minesweeps (Difficulty difficulty) {
+        this.numRows = difficulty.numRows;
+        this.numCols = difficulty.numCols;
+        this.numMines = difficulty.numMines; 
+        this.grid = new Grid (numRows, numCols, numMines);
+    }
 
     /**
      * manages the game loop
@@ -149,9 +156,15 @@ public class Minesweeps {
      * @return
      */
     private boolean checkInputValid(String move) {
-        if (move == null || move.isEmpty() || move.length() > 3 || move.length()<2) {
+        if (move == null || move.isEmpty()) {
             return false;
         }
+
+        int maxLength = Integer.toString(numRows).length() + Integer.toString(numCols).length() + 1;
+        //checks if move is out of bounds
+        if (move.length() > maxLength || move.length() < 2) {
+                return false;
+            }
         
         char firstChar = move.charAt(0);
         if (firstChar < 'a' || firstChar > 'a' + numRows -1) {
@@ -162,13 +175,9 @@ public class Minesweeps {
         if (lastChar == 'f') {
             move = move.substring(0, move.length()-1);
         } 
-        else if (lastChar < '0' || lastChar > (char)(numCols + '0' - 1)) {
-            return false;
-        }
-
 
         String colStr = move.substring(1);
-        if (colStr.matches("\\d+")) {
+        if (colStr.matches("\\d+")) {  //checks if last char of the move is a positive number
             int col = Integer.parseInt(colStr);
             if (col < 0 || col > numCols -1) {
                 return false;
@@ -205,8 +214,16 @@ public class Minesweeps {
      * @return
      */
     private int getColumn(String move) {
-        String num = move.substring(1, move.length() - (getAction(move) == 'f' ? 1 : 0));
-        return Integer.parseInt(num);
+        // String num = move.substring(1, move.length() - (getAction(move) == 'f' ? 1 : 0));
+        // return Integer.parseInt(num);
+        if (getAction(move) == 'f') {
+            String num = move.substring(1, move.length()-1);
+            return Integer.parseInt(num);
+        }
+        else {
+            String num = move.substring(1);
+            return Integer.parseInt(num);
+        }
     }
 
     /**
