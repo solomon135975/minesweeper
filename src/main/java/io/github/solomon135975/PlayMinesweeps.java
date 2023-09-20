@@ -31,5 +31,6 @@ public class PlayMinesweeps {
 
         Minesweeps game = new Minesweeps(difficulty);
         game.playMinesweeper();
+        scanner.close();
     }
 }
