@@ -12,5 +12,5 @@ I play too much Minesweeper so I thought I'd try make a simple text interface ve
 ### Run the Game:
 - Open your terminal or command prompt
 - Navigate to the directory where you downloaded the JAR file using the cd command: cd path/to/downloaded/directory
-- Run the game using this command: java -jar minesweeper-1.0.0.jar
+- Run the game using this command: java -jar minesweeper-1.1.0.jar
 - Follow the game instructions and prompts to play !!
