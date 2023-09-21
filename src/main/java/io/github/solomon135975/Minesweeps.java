@@ -35,7 +35,8 @@ public class Minesweeps {
         Scanner scanner = new Scanner(System.in);
         MineGenerator mineGen = new MineGenerator();
 
-        System.out.println (rules + grid.getNumFlags());
+        System.out.println ("A # is an unrevealed cell.\nA ! is a flagged cell.\nAn X is a mine\n" 
+                            + rules + grid.getNumFlags());
         grid.printGrid();
 
         String firstMove = handleFirstMove(scanner, rules);

@@ -198,7 +198,7 @@ public class Grid {
             char rowLabel = (char)('a' + i);
             System.out.print(rowLabel + " ");
             for (int j = 0; j<numColumns; j++) {
-                System.out.print (" " + grid[i][j].getDisplay() + "  ");
+                System.out.print ("  " + grid[i][j].getDisplay() + " ");
             }
             System.out.println("");
         }
